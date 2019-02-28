@@ -170,10 +170,10 @@ namespace UnitTestProject1
 
             Vector result = m1 * v;
 
-            Assert.AreEqual(36, result.x);
-            Assert.AreEqual(29, result.y);
+            Assert.AreEqual(60, result.x);
+            Assert.AreEqual(33, result.y);
             Assert.AreEqual(1, result.w);
-            Assert.AreEqual(57, result.z);
+            Assert.AreEqual(55, result.z);
 
         }
 

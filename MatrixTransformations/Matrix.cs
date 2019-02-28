@@ -70,7 +70,7 @@ namespace MatrixTransformations
             mat[3, 0] = 1;
             mat[3, 1] = 0;
             mat[3, 2] = 0;
-            mat[3, 3] = 0;
+            mat[3, 3] = 1;
         }
 
         public static Matrix operator +(Matrix m1, Matrix m2)
@@ -150,9 +150,13 @@ namespace MatrixTransformations
         {
             Vector newVector = new Vector();
 
-            newVector.x = (m1.mat[0, 0] * v.x) + (m1.mat[0, 1] * v.y) + (m1.mat[0, 2] * v.w) + (m1.mat[0, 3] * v.z);
-            newVector.y = (m1.mat[1, 0] * v.x) + (m1.mat[1, 1] * v.y) + (m1.mat[1, 2] * v.w) + (m1.mat[1, 3] * v.z);
-            newVector.z = (m1.mat[3, 0] * v.x) + (m1.mat[3, 1] * v.y) + (m1.mat[3, 2] * v.w) + (m1.mat[3, 3] * v.z);
+            Matrix vector = new Matrix(v);
+
+            Matrix solution = m1 * vector;
+
+            newVector.x = solution.mat[0, 0];
+            newVector.y = solution.mat[1, 0];
+            newVector.z = solution.mat[2, 0];
 
             return newVector;
         }
@@ -185,8 +189,8 @@ namespace MatrixTransformations
         public static Matrix RotationX(double alpha)
         {
             return new Matrix(
-                1,0, 0, 0,
-                0,(float)Math.Cos(alpha), (float)-Math.Sin(alpha), 0,
+                1, 0, 0, 0,
+                0, (float)Math.Cos(alpha), (float)-Math.Sin(alpha), 0,
                 0, (float)Math.Sin(alpha), (float)Math.Cos(alpha), 0,
                 0, 0, 0, 1
                 );
@@ -213,8 +217,8 @@ namespace MatrixTransformations
         public static Matrix View(float theta, float phi, float r)
         {
 
-            float thetarad = (float)(Math.PI / 180) * theta;
-            float phirad = (float)(Math.PI/180) * phi;
+            double thetarad = (Math.PI / 180) * theta;
+            double phirad = (Math.PI / 180) * phi;
 
 
             //Klopt het dat de cos van phi hetzelfde is als sin theta maar dan negatief?
