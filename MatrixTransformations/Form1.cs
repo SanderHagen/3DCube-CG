@@ -25,7 +25,6 @@ namespace MatrixTransformations
         bool rotatebackx = false;
         bool scaleback = false;
         bool rotatebacky = false;
-        double currentscale = 0;
         double currentrotatex = 0;
         double currentrotatey = 0;
 
@@ -61,6 +60,7 @@ namespace MatrixTransformations
 
         private void Form1_Paint(object sender, PaintEventArgs e)
         {
+            ShowInfo();
             List<Vector> vb;
 
             vb = new List<Vector>();
@@ -245,75 +245,134 @@ namespace MatrixTransformations
             {
                 if (!phase1finished)
                 {
-                    if (scale >= 1.4999)
-                    {
-                        scaleback = true;
-                    }
-                    if (scale < 1.5 && !scaleback)
-                    {
-                        scale += 0.01;
-                    }
-
-                    if (scaleback)
-                    {
-                        scale -= 0.01;
-                        if(scale <= 1)
-                        {
-                            phase1finished = true;
-                        }
-                    }
+                    Phase1();
                 }
 
                 if (phase1finished && !phase2finished)
                 {
-                    //TODO: de rotatie wordt in radialen meegegeven, dit moet omgezet worden naar graden.
-                    Console.WriteLine(currentrotatex);
-                    if (currentrotatex >= 45)
-                    {
-                        rotatebackx = true;
-                    }
-
-                    if (rotatebackx)
-                    {
-                        rx -= 0.01;
-                        currentrotatex -= -.01;
-                        if (currentrotatex <= 0)
-                        {
-                            phase2finished = true;
-                        }
-                    }
-                    else
-                    {
-                        rx += 0.01;
-                        currentrotatex += 0.01;
-                    }
+                    Phase2();
                 }
 
                 if (phase1finished && phase2finished && !phase3finished)
                 {
-                    if (currentrotatey == 45)
-                    {
-                        rotatebacky = true;
-                    }
-
-                    if (rotatebacky)
-                    {
-                        ry -= 1;
-                        currentrotatey--;
-                        if (currentrotatey == 0)
-                        {
-                            phase3finished = true;
-                        }
-                    }
-                    else
-                    {
-                        ry += 1;
-                        currentrotatey++;
-                    }
+                    Phase3();
                 }
+                if (phase1finished && phase2finished && phase3finished)
+                {
+                    ResetPhase();
+                }
+                Console.WriteLine(phase);
 
-                this.Invalidate(true);
+                Invalidate();
             }
+        }
+
+        private void ResetPhase()
+        {
+            phase = 4;
+            if (theta != -100)
+            {
+                theta++;
+            }
+            if (phi != -10)
+            {
+                phi--;
+            }
+
+            if (theta == -100 && phi == -10)
+            {
+                phase1finished = false;
+                phase2finished = false;
+                phase3finished = false;
+            }
+        }
+
+        private void Phase3()
+        {
+            phase = 3;
+            phi++;
+            double degrees = (180 / Math.PI) * currentrotatey;
+
+            if (degrees >= 45)
+            {
+                rotatebacky = true;
+            }
+
+            if (rotatebacky)
+            {
+                ry -= 0.01;
+                currentrotatey -= 0.01;
+                if (currentrotatey == 0)
+                {
+                    phase3finished = true;
+                }
+            }
+            else
+            {
+                ry += 0.01;
+                currentrotatey += 0.01;
+            }
+        }
+
+        private void Phase2()
+        {
+
+            phase = 2;
+            theta--;
+            double degrees = (180 / Math.PI) * currentrotatex;
+            if (degrees >= 45)
+            {
+                rotatebackx = true;
+            }
+
+            if (rotatebackx)
+            {
+                rx -= 0.01;
+                currentrotatex -= 0.01;
+                if (currentrotatex <= 0)
+                {
+                    phase2finished = true;
+                }
+            }
+            else
+            {
+                rx += 0.01;
+                currentrotatex += 0.01;
+            }
+
+        }
+
+        private void Phase1()
+        {
+
+            phase = 1;
+            theta--;
+            if (scale >= 1.4999)
+            {
+                scaleback = true;
+            }
+            if (scale < 1.5 && !scaleback)
+            {
+                scale += 0.01;
+            }
+
+            if (scaleback)
+            {
+                scale -= 0.01;
+                if (scale <= 1)
+                {
+                    phase1finished = true;
+                }
+            }
+
+        }
+
+        private void ShowInfo()
+        {
+            double degreesrotate = (180 / Math.PI) * currentrotatex;
+
+            transxVal.Text = degreesrotate.ToString();
+            scaleVal.Text = scale.ToString();
         }
     }
 }
