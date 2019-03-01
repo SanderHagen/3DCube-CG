@@ -315,8 +315,8 @@ namespace MatrixTransformations
 
             if (rotatebacky)
             {
-                ry -= 0.01;
-                currentrotatey -= 0.01;
+                ry -= 0.1;
+                currentrotatey -= 0.1;
                 if (currentrotatey == 0)
                 {
                     phase3finished = true;
@@ -324,8 +324,8 @@ namespace MatrixTransformations
             }
             else
             {
-                ry += 0.01;
-                currentrotatey += 0.01;
+                ry += 0.1;
+                currentrotatey += 0.1;
             }
         }
 
@@ -342,8 +342,8 @@ namespace MatrixTransformations
 
             if (rotatebackx)
             {
-                rx -= 0.01;
-                currentrotatex -= 0.01;
+                rx -= 0.1;
+                currentrotatex -= 0.1;
                 if (currentrotatex <= 0)
                 {
                     phase2finished = true;
@@ -351,8 +351,8 @@ namespace MatrixTransformations
             }
             else
             {
-                rx += 0.01;
-                currentrotatex += 0.01;
+                rx += 0.1;
+                currentrotatex += 0.1;
             }
 
         }
@@ -386,8 +386,18 @@ namespace MatrixTransformations
         {
             double degreesrotate = (180 / Math.PI) * currentrotatex;
 
-            transxVal.Text = degreesrotate.ToString();
+            transXVal.Text = tx.ToString();
+            transYVal.Text = ty.ToString();
+            transZVal.Text = tz.ToString();
+            rotXVal.Text = rx.ToString();
+            rotYVal.Text = ry.ToString();
+            rotZVal.Text = rz.ToString();
             scaleVal.Text = scale.ToString();
+        }
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }
