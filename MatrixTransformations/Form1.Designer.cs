@@ -28,18 +28,11 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
-            this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.scaleLabel = new System.Windows.Forms.Label();
             this.TransXLabel = new System.Windows.Forms.Label();
             this.scaleVal = new System.Windows.Forms.Label();
             this.transxVal = new System.Windows.Forms.Label();
             this.SuspendLayout();
-            // 
-            // timer1
-            // 
-            this.timer1.Enabled = true;
-            this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
             // 
             // scaleLabel
             // 
@@ -98,8 +91,6 @@
         }
 
         #endregion
-
-        private System.Windows.Forms.Timer timer1;
         private System.Windows.Forms.Label scaleLabel;
         private System.Windows.Forms.Label TransXLabel;
         private System.Windows.Forms.Label scaleVal;

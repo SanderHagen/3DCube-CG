@@ -10,8 +10,19 @@ using System.Windows.Forms;
 
 namespace MatrixTransformations
 {
+ 
     public partial class Form1 : Form
     {
+        public class formTimer
+        {
+            public static System.Timers.Timer timer;
+            public formTimer()
+            {
+                timer = new System.Timers.Timer();
+                timer.Interval = 100;
+            }
+        }
+
         AxisY y;
         AxisX x;
         AxisZ z;
@@ -54,6 +65,9 @@ namespace MatrixTransformations
             x = new AxisX(3);
             y = new AxisY(3);
             z = new AxisZ(3);
+
+            formTimer timer = new formTimer();
+            formTimer.timer.Elapsed += onTimerElapsed;
 
             cube1 = new Cube(Color.Purple);
         }
@@ -213,7 +227,7 @@ namespace MatrixTransformations
             if (e.KeyCode == Keys.A)
             {
                 animationstarted = true;
-
+                formTimer.timer.Start();
 
             }
 
@@ -239,7 +253,7 @@ namespace MatrixTransformations
             this.Invalidate();
         }
 
-        private void timer1_Tick(object sender, EventArgs e)
+        private void onTimerElapsed(object sender, EventArgs e)
         {
             if (animationstarted)
             {
@@ -284,6 +298,7 @@ namespace MatrixTransformations
                 phase1finished = false;
                 phase2finished = false;
                 phase3finished = false;
+                formTimer.timer.Stop();
             }
         }
 
